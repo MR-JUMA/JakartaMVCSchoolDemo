@@ -26,13 +26,7 @@ public class SchoolController {
         return "homepage.jsp";
     }
 
-    @GET
-    @Path("{id}")
-    public String edit(@PathParam("id") int id){
-        School school=schoolRepository.loadById(id);
-        model.put("school",school);
-        return "details.jsp";
-    }
+
 
     @GET
     public String home() {
@@ -54,9 +48,32 @@ public class SchoolController {
     }
 
 
+    @GET
+    @Path("{id}/edit")
+    public String edit(@PathParam("id") int id){
+        School school=schoolRepository.loadById(id);
+        SchoolForm form=new SchoolForm();
+        form.setId(school.getId());
+        form.setName(school.getName());
+        form.setLocation(school.getLocation());
+        model.put("form",form);
+        return "details.jsp";
+    }
 
     @POST
-    @Path("{id}")
+    @Path("{id}/update")
+    public Response update(@PathParam("id") int id,@BeanParam SchoolForm form){
+        School school=schoolRepository.loadById(id);
+        school.setName(form.getName());
+        school.setLocation(form.getLocation());
+        schoolRepository.update(school);
+
+        return Response.ok("redirect:school").build();
+    }
+
+
+    @POST
+    @Path("{id}/delete")
     public Response deleteSchool(@PathParam("id") int id){
         schoolRepository.deleteById(id);
         return Response.ok("redirect:school").build();

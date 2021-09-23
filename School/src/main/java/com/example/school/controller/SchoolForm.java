@@ -18,9 +18,21 @@ public class SchoolForm {
     @FormParam("location")
     private String location;
 
-    public SchoolForm(String name, String location) {
+    @FormParam("id")
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public SchoolForm(String name, String location, int id) {
         this.name = name;
         this.location = location;
+        this.id = id;
     }
 
     public SchoolForm() {
@@ -47,6 +59,7 @@ public class SchoolForm {
         return "SchoolForm{" +
                 "name='" + name + '\'' +
                 ", location='" + location + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

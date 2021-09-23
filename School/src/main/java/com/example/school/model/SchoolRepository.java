@@ -34,5 +34,7 @@ public class SchoolRepository {
         return eManager.find(School.class,id);
     }
 
-
+    public School update(School school) {
+        return eManager.merge(school);
+    }
 }

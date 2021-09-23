@@ -44,13 +44,18 @@
             <scope>test</scope>
         </dependency>
 
-<!-- If you use the default datasource in GlassFish, you won't need this dependency
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+        <!-- used a custom datasource to connect to mysql database in GlassFish -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.26</version>
         </dependency>
--->
 
     </dependencies>
 

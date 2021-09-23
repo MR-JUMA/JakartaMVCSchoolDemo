@@ -26,5 +26,8 @@
 
     </form>
 
+    <a href="${mvc.basePath}/school"><button>Back</button></a>
+
+
 </body>
 </html>

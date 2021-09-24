@@ -1,9 +1,9 @@
-package com.example.school.model;
+package com.example.school.repository;
 
+import com.example.school.model.School;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-
 import java.util.List;
 
 

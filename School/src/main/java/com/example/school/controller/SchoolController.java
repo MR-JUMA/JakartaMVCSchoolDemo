@@ -1,7 +1,8 @@
 package com.example.school.controller;
 
 import com.example.school.model.School;
-import com.example.school.model.SchoolRepository;
+import com.example.school.dtos.SchoolDto;
+import com.example.school.service.SchoolService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.mvc.Controller;
@@ -17,8 +18,9 @@ public class SchoolController {
 
     @Inject
     Models model;
+
     @Inject
-    SchoolRepository schoolRepository;
+    private SchoolService schoolService;
 
     @GET
     @Path("add")
@@ -31,7 +33,8 @@ public class SchoolController {
     @GET
     public String home() {
 
-        List<School> list= schoolRepository.getAll();
+        List<School> list= schoolService.getAll();
+
         model.put("list",list);
         return "view.jsp";
     }
@@ -39,11 +42,7 @@ public class SchoolController {
     @POST
     @Path("save")
     public Response save(@BeanParam SchoolForm form){
-
-        School school=new School();
-        school.setName(form.getName());
-        school.setLocation(form.getLocation());
-        schoolRepository.saveSchool(school);
+        schoolService.saveSchool(form.getName(),form.getLocation());
         return Response.ok("redirect:school").build();
     }
 
@@ -51,11 +50,11 @@ public class SchoolController {
     @GET
     @Path("{id}/edit")
     public String edit(@PathParam("id") int id){
-        School school=schoolRepository.loadById(id);
+        SchoolDto dto= schoolService.load(id);
         SchoolForm form=new SchoolForm();
-        form.setId(school.getId());
-        form.setName(school.getName());
-        form.setLocation(school.getLocation());
+        form.setId(dto.getId());
+        form.setName(dto.getName());
+        form.setLocation(dto.getLocation());
         model.put("form",form);
         return "details.jsp";
     }
@@ -63,11 +62,7 @@ public class SchoolController {
     @POST
     @Path("{id}/update")
     public Response update(@PathParam("id") int id,@BeanParam SchoolForm form){
-        School school=schoolRepository.loadById(id);
-        school.setName(form.getName());
-        school.setLocation(form.getLocation());
-        schoolRepository.update(school);
-
+        schoolService.updateSchool(id,form.getName(),form.getLocation());
         return Response.ok("redirect:school").build();
     }
 
@@ -75,7 +70,7 @@ public class SchoolController {
     @POST
     @Path("{id}/delete")
     public Response deleteSchool(@PathParam("id") int id){
-        schoolRepository.deleteById(id);
+        schoolService.deleteSchool(id);
         return Response.ok("redirect:school").build();
     }
 
